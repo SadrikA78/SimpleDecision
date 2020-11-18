@@ -1,0 +1,289 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+{% block css %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    {% block page %}
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Статистика применения "КОМПЛЕКТА"</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+		<!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-globe"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Конкурсы</span>
+                <span class="info-box-number">
+                  {{ conkurs|length }}
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-info elevation-1"><i class="fab fa-superpowers"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Заявки</span>
+                <span class="info-box-number">{{ zayas|length }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-atom"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Организации</span>
+                <span class="info-box-number">{{ orgs|length }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-info elevation-1"><i class="far fa-file-alt"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Документы</span>
+                <span class="info-box-number">{{ docs|length }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+		<div class="raw">
+		<div class="col-12">
+		<div class="card">
+		 <div class="card-header">
+                <h3 class="card-title">
+                 Конкурсы
+                </h3>
+
+                <div class="card-tools">
+				<button type="button" class="btn btn-info" data-card-widget="collapse" data-toggle="tooltip" title="Развернуть"><i class="fas fa-expand"></i>
+                  </button>
+				 <a href="{% url 'polls:new_conkurs' %}" type="button" class="btn btn-info float-right"data-toggle="tooltip" title="Добавить объект"><i class="fas fa-plus"></i></a>
+                </div>
+              </div>
+            <!-- /.card-header -->
+			<div class="card-body p-0">
+			{% if conkurs|length == 0 %}					
+			<div>Нет данных о конкурсах</div>
+			<br>
+			{% else %} 
+                    <ul class="users-list clearfix">
+					{% for i in conkurs %}
+                      <li>
+                        <a href="{% url 'polls:conkurs' i.id%}"><img src="/static/files/{{i.logo}}" alt="User Image"></a>
+                        <a class="users-list-name" href="{% url 'polls:conkurs' i.id%}">{{i.name}}</a>
+                        <a href="{% url 'polls:conkurs' i.id%}"><span class="users-list-date">Основной конкурс</span></a>
+                      </li>
+					  {% endfor %}
+                    </ul>
+			{% endif %}
+                    <!-- /.users-list -->
+                  </div>
+                  
+           
+          </div>
+          <!-- /.card -->
+		
+		</div>
+          <!-- /.col -->
+		</div>
+        <!-- /.row -->
+		<div class="raw">
+		<div class="col-12">
+		<div class="card">
+		 <div class="card-header">
+                <h3 class="card-title">
+                 Заявки
+                </h3>
+
+                <div class="card-tools">
+				<button type="button" class="btn btn-info" data-card-widget="collapse" data-toggle="tooltip" title="Развернуть"><i class="fas fa-expand"></i>
+                  </button>
+				<a href="{% url 'polls:new_zay' %}" type="button" class="btn btn-info float-right"data-toggle="tooltip" title="Добавить объект"><i class="fas fa-plus"></i></a>
+                </div>
+              </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+			{% if zayas|length == 0 %}					
+			<div>Нет данных о заявках</div>
+			<br>
+			{% else %} 
+              <table id="example2" class="table table-bordered table-striped">
+                <thead align="center">
+                <tr>
+                  <th>Конкурс</th>
+                  <th>Организация</th>
+                  <th>Документов <br>отправлено</th>
+				  <th>Типы документов</th>
+                  <th>Ошибки</th>
+				  <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody align="center">
+				{% for i in zayas %}
+                <tr>
+                  <td>{{i.conkurs.name}}</td>
+                  <td>{{i.org.name}}</td>
+				  <td>{{i.zay.all|length}}</td>
+                  <td>{% for d in i.zay.all %} <a href="{% url 'polls:doc_z' d.id%}">{{d.name}}</a><br>{% endfor %}</td>
+                  <td>{{sys.sat.all|length}}</td>
+				 <td align="center">
+				  <div class="btn-group">
+                        <a href="{% url 'polls:results' i.id%}"type="button" class="btn btn-info" data-toggle="tooltip" title="Просмотреть"><i class="fab fa-hornbill"></i></a>
+                      </div>
+				  </td>
+                </tr>
+				{% endfor %}
+                </tbody>
+              </table>
+			  {% endif %}
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+		
+		</div>
+          <!-- /.col -->
+		</div>
+        <!-- /.row -->
+		<div class="raw">
+		<div class="col-12">
+		<div class="card">
+		 <div class="card-header">
+                <h3 class="card-title">
+                 Организации
+                </h3>
+                <div class="card-tools">
+				<button type="button" class="btn btn-info" data-card-widget="collapse" data-toggle="tooltip" title="Развернуть"><i class="fas fa-expand"></i>
+                  </button>
+				 <a href="{% url 'polls:new_org' %}" type="button" class="btn btn-info float-right"data-toggle="tooltip" title="Добавить объект"><i class="fas fa-plus"></i></a>
+                </div>
+				 </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+			{% if orgs|length == 0 %}					
+			<div>Нет данных об организациях</div>
+			<br>
+			{% else %} 
+              <table id="example1" class="table table-bordered table-striped">
+                <thead align="center">
+                <tr>
+					<th>Организация</th>
+					<th>ИНН</th>
+					<th>Конкурсы</th>
+                    <th>Документы</th>
+                    <th>Верификация</th>
+					<th>Рейтинг</th>
+                </tr>
+                </thead>
+                <tbody align="center">
+				{% for i in orgs %}
+                <tr>
+				<td>{{i.name}}</td>
+				<td>{{i.INN}}</td>
+                  <td>{% for j in i.conkurs.all %}
+				  {{ j.name }}
+				  {% endfor %}</td>
+                  <td></td>
+                  <td></td>
+				  <th>
+                </tr>
+				{% endfor %}
+                </tbody>
+              </table>
+			  {% endif %}
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+		</div>
+          <!-- /.col -->
+		</div>
+        <!-- /.row -->
+	
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    {% endblock page %}
+{% endblock content %}
+{% block scripts %}
+<!-- DataTables -->
+<script src="{% static '/polls/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+
+<script src="{% static '/polls/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static '/polls/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static '/polls/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+	$("#example2").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+		$("#example3").DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+	$("#example4").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

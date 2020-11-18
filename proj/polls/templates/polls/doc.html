@@ -1,0 +1,118 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Документ-образец {% endblock %}
+{% block css %}
+<!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static '/polls/dist/css/adminlte.min.css' %}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% block page %}
+<div class="content-header">
+      <div class="container-fluid">
+	   <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Документ {{doc.name}}</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+	   <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Информация, добавленная специалистом</h3>
+				  <a href="javascript:history.go(-1)">
+                            <button class="btn btn-success  btn-lg" style="border-radius: 4px;margin-top: 5px; margin-bottom: 5px; margin-right: -2px; font-size: 13px; float: right;"  >
+                             Назад
+                            </button>
+                            </a>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+		  <div class="row">
+		  <div class="col-12">
+		  <iframe id="fred" style="border:1px solid #666CCC" title="PDF in an i-Frame" src="/static/files/{{doc.name}}" frameborder="1" scrolling="auto" height="1000" width="1100" ></iframe>
+			</div>
+		  </div>
+          <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    
+      </div><!-- /.container-fluid -->
+    
+
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    {% endblock page %}
+{% endblock content %}
+{% block scripts %}
+<!-- DataTables -->
+<script src="{% static '/polls/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{% static '/pakp/vendors/iCheck/icheck.min.js' %}"></script>
+    <script src="{% static '/pakp/vendors/datatables.net/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static '/pakp/vendors/validator/validator.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+<script>
+$(document).ready(function() {
+    var max_fields      = 30;
+    var wrapper         = $(".container1");
+    var add_button      = $(".add_form_field");
+ 
+    var x = 1;
+    $(add_button).click(function(e){
+        e.preventDefault();
+        if(x < max_fields){
+            x++;
+            $(wrapper).append('<div class="row"> <div class="col-md-6"> <div class="form-group"> <label for="id_name">Название документа</label><input type="text" name="name []" class="form-control" maxlength="128" placeholder="Название системы"></div></div><div class="col-md-6"><div class="form-group"><label for="id_logo">Образец</label><div class="input-group"><div class="custom-file"><input type="file" name="logo []" class="custom-file-input" id="id_logo"><label class="custom-file-label" for="id_logo">Выберете файл</label></div></div></div></div> </div>'); //add input box
+        }
+  else
+  {
+  alert('Вы привысили лимит!')
+  }
+    });
+ 
+    $(wrapper).on("click",".delete", function(e){
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
+</script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+	$("#example2").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+		$("#example3").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+	$("#example4").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

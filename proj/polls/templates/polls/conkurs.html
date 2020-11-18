@@ -1,0 +1,242 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Конкурс {% endblock %}
+{% block css %}
+<!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static '/polls/dist/css/adminlte.min.css' %}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static '/polls/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% block page %}
+<div class="content-header">
+      <div class="container-fluid">
+	   <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Конкурс {{real_conkurs.name}}</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+	   <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Информация, добавленная специалистом</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+		  <div class="row">
+		  <div class="col-12">
+		  <div class="post">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="/static/files/{{real_conkurs.logo}}" alt="user image">
+                        <span class="username">
+                          <a href="#">{{real_conkurs.name}}</a>
+                        </span>
+                        <span class="description">Основной конкурс</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <p>
+                        {{real_conkurs.definition}}
+                      </p>
+                    </div>
+		  </div>
+		  </div>
+          <div class="row">
+		  <label>Документы-экземпляры</label>
+		  </div>
+		  <br>
+		  <div class="row">
+            <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+              <div class="row">
+			   
+
+			  {% for i in docs %}
+                <div class="col-12 col-sm-4">
+				<a href="{% url 'polls:doc' i.id%}" type="button" class="btn btn-block btn-default btn-lg">
+				{% if "pdf" in i.name %}
+				<i class="far fa-fw fa-file-pdf"></i> 
+				{% elif "jpg" in i.name or "JPG" in i.name or  "PNG" in i.name or "png" in i.name %}
+				<i class="far fa-file-image"></i>
+				{% elif "doc" in i.name %}
+				<i class="far fa-fw fa-file-word"></i>
+				{% else %}
+				<i class="far fa-file"></i>
+				{% endif %}
+				{{i.name}}</a>
+                </div>
+                {% endfor %}
+				</div>
+				</div>
+        </div>
+		
+		  <br>
+		<div class="row">
+		
+		<div class="col-12 col-sm-12">
+                <div class="form-group">
+				<label>Критерии проверки</label>
+                  <div class="select2-purple">
+                    <select class="select2" multiple="multiple" disabled="disabled" data-placeholder="Выбор критериев" data-dropdown-css-class="select2-purple" style="width: 100%;">
+					{% for i in TYPE_PROOF %}
+                      <option selected="selected">{{i.1}}</option>
+                     {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- /.form-group -->
+              </div>
+		</div>
+		<br>
+		<div class="row">
+		   <a href="{% url 'polls:edit_conkurs' real_conkurs.id%}" type="submit" class="btn btn-primary">Настроить</a>
+		  </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    
+      </div><!-- /.container-fluid -->
+    
+
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    {% endblock page %}
+{% endblock content %}
+{% block scripts %}
+<!-- DataTables -->
+<script src="{% static '/polls/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static '/polls/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!-- Select2 -->
+<script src="{% static '/polls/plugins/select2/js/select2.full.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+<script>
+$(document).ready(function() {
+    var max_fields      = 30;
+    var wrapper         = $(".container1");
+    var add_button      = $(".add_form_field");
+ 
+    var x = 1;
+    $(add_button).click(function(e){
+        e.preventDefault();
+        if(x < max_fields){
+            x++;
+            $(wrapper).append('<div class="row"> <div class="col-md-6"> <div class="form-group"> <label for="id_name">Название документа</label><input type="text" name="name []" class="form-control" maxlength="128" placeholder="Название системы"></div></div><div class="col-md-6"><div class="form-group"><label for="id_logo">Образец</label><div class="input-group"><div class="custom-file"><input type="file" name="logo []" class="custom-file-input" id="id_logo"><label class="custom-file-label" for="id_logo">Выберете файл</label></div></div></div></div> </div>'); //add input box
+        }
+  else
+  {
+  alert('Вы привысили лимит!')
+  }
+    });
+ 
+    $(wrapper).on("click",".delete", function(e){
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
+</script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+	$("#example2").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+		$("#example3").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+	$("#example4").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+    
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
+</script>
+{% endblock %}
