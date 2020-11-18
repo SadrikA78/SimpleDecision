@@ -373,7 +373,7 @@ def results(request, results_id):
                     except ValueError:
                         info_page = {'page': index, 'example':index2, 'error': 'pull', 'results':None}
                     list_page.append(info_page)
-            list_doc_z.append({'name':i.name, 'type': kind.extension, 'test': outputpath, 'example': list_examples_files[0], 'sign': list_rasbor, 'page':list_page})
+            list_doc_z.append({'name':i.name, 'type': kind.extension, 'test': list_examples_files[0], 'example': list_examples_files[0], 'sign': list_rasbor, 'page':list_page})
         elif kind.extension=="jpg" or kind.extension=="png":
             list_doc_z.append({'name':i.name, 'type': kind.extension})
         #result1 = run_delf(i.doc)

@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}Новый конкурс{% endblock %}
+{% block title %}Новый Закупки{% endblock %}
 {% block css %}
 <!-- Bootstrap Color Picker -->
   <link rel="stylesheet" href="{% static '/polls/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}">
@@ -21,12 +21,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark" >Добавление нового конкурса</h1>
+            <h1 class="m-0 text-dark" >Добавление нового закупки</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">Главная страница</a></li>
-              <li class="breadcrumb-item active">Новый конкурс</li>
+              <li class="breadcrumb-item active">Новый закупка</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
